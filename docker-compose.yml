@@ -1,5 +1,6 @@
 services:
-  server:
+  bitlogicsoftware:
+    container_name: bitlogicsoftware
     build:
       context: .
     environment:
