@@ -1,0 +1,261 @@
+@use 'bulma/sass' with (
+	$family-primary: '"Roboto", sans-serif',
+	$primary: #0486dc,
+	$card-shadow: none,
+	$box-shadow: none
+);
+@use 'bulma/sass/base';
+@use 'bulma/sass/elements';
+@use 'bulma/sass/form';
+@use 'bulma/sass/components';
+@use 'bulma/sass/grid';
+@use 'bulma/sass/helpers';
+@use 'bulma/sass/layout';
+@use 'bulma/sass/themes';
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+$background-color: #f5f7fa;
+$card-border-color: #e3e3e3;
+$box-border-color: #e3e3e3;
+$primary-color: #0486dc;
+
+html {
+	background-color: $background-color;
+}
+
+.card {
+	border: 1px solid $card-border-color !important;
+}
+.box {
+	border: 1px solid $card-border-color !important;
+}
+
+.section-content {
+	width: calc(100% - 620px);
+	margin-right: 340px;
+	margin-left: 340px;
+}
+
+.signup-caption {
+	max-width: 420px;
+	margin-bottom: 1.5rem;
+}
+
+.title.is-medium {
+	font-weight: 500;
+}
+
+.title.is-leading {
+	margin-bottom: 0.5rem !important;
+}
+
+@media (prefers-color-scheme: dark) {
+	a {
+		color: $background-color !important;
+	}
+
+	body {
+		background-color: #262a32 !important;
+		color: $background-color !important;
+	}
+
+	#sidebar {
+		background-color: #14161a;
+	}
+
+	.sidebar-item:hover:not(.active),
+	#logout_btn:hover {
+		background-color: #ffd46f;
+		color: #14161a;
+	}
+}
+
+[data-theme='dark'],
+.theme-dark {
+	a {
+		color: $background-color !important;
+	}
+
+	body {
+		background-color: #262a32 !important;
+		color: $background-color !important;
+	}
+
+	#sidebar {
+		background-color: #14161a;
+	}
+
+	.sidebar-item:hover:not(.active),
+	#logout_btn:hover {
+		background-color: #ffd46f;
+		color: #14161a;
+	}
+}
+
+body {
+	min-height: 100vh !important;
+	overflow: auto;
+	background-color: $background-color;
+	color: #1b254b !important;
+}
+
+#sidebar {
+	background-color: #ffffff;
+	height: 100vh;
+	border-radius: 0px 18px 18px 0px;
+	position: relative;
+	transition: all 0.5s;
+	min-width: 82px;
+	z-index: 2;
+}
+
+a {
+	color: #1b254b !important;
+}
+
+aside {
+	background-color: white;
+}
+
+tr td {
+	border-bottom-style: hidden !important;
+}
+
+#user {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 24px;
+}
+
+#user-avatar {
+	width: 125px;
+	object-fit: cover;
+}
+
+#sidebar-list {
+	gap: 8px;
+	list-style: none;
+}
+
+.sidebar-item {
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+.sidebar-item.active {
+	background-color: #0486dc;
+}
+
+.sidebar-item:hover:not(.active) {
+	background-color: #e3e9f7;
+}
+
+.sidebar-item a {
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	color: #262a32;
+}
+
+.sidebar-item.active a {
+	color: #fff !important;
+}
+
+.sidebar-item a i {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+}
+
+@media print {
+	* {
+		background: transparent !important;
+		color: #000 !important;
+		text-shadow: none !important;
+		filter: none !important;
+		-ms-filter: none !important;
+	}
+
+	body {
+		margin: 0 !important;
+		padding: 0 !important;
+		line-height: 1.4em !important;
+	}
+
+	table > tbody > tr > td {
+		padding-top: 3px !important;
+		padding-bottom: 3px !important;
+	}
+
+	.has-text-danger {
+		color: red !important;
+	}
+
+	#sidebar,
+	#breadcrumb,
+	form {
+		display: none !important;
+	}
+
+	.is-hidden-print {
+		display: none !important;
+	}
+
+	.print-pr-2 {
+		padding-right: 0.5rem !important;
+	}
+
+	.print-pl-6 {
+		padding-left: 3rem !important;
+	}
+
+	textarea {
+		border: none !important;
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	.card {
+		--bulma-card-background-color: transparent !important;
+		--bulma-card-shadow: none !important;
+		--bulma-card-radius: 0 !important;
+		--bulma-card-content-background-color: transparent;
+		--bulma-card-content-padding: 0 !important;
+	}
+
+	.section {
+		--bulma-section-padding: 0 !important;
+		--bulma-section-padding-desktop: 0 !important;
+		--bulma-section-padding-medium: 0 !important;
+		--bulma-section-padding-large: 0 !important;
+	}
+
+	#printable-content tr:nth-child(even) td {
+		background-color: $background-color !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	.table {
+		--bulma-table-cell-padding: 0 !important;
+	}
+
+	.table-actions {
+		display: none !important;
+	}
+
+	hr {
+		display: block !important;
+		width: 100% !important;
+		border-top: solid 1px black !important;
+	}
+
+	hr.double {
+		border-bottom: solid 1px black !important;
+	}
+}
