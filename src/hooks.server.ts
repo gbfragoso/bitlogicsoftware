@@ -20,23 +20,27 @@ export async function handle({ event, resolve }) {
 		return resolve(event);
 	}
 
-	const token = verify(result[0].token);
-	if (!token) {
+	try {
+		const token = verify(result[0].token);
+		if (!token) {
+			event.locals.authorized = false;
+			return resolve(event);
+		}
+
+		const tokenInfo = JSON.parse(token);
+		event.cookies.set('sessionId', sessionId, {
+			path: '/',
+			httpOnly: true,
+			maxAge: 60 * 60 * 24,
+			sameSite: 'strict'
+		});
+
+		event.locals.authorized = true;
+		event.locals.type = tokenInfo.type;
+		event.locals.role = tokenInfo.role;
+	} catch (error) {
 		event.locals.authorized = false;
-		return resolve(event);
 	}
-
-	const tokenInfo = JSON.parse(token);
-	event.cookies.set('sessionId', sessionId, {
-		path: '/',
-		httpOnly: true,
-		maxAge: 60 * 60 * 24,
-		sameSite: 'strict'
-	});
-
-	event.locals.authorized = true;
-	event.locals.type = tokenInfo.type;
-	event.locals.role = tokenInfo.role;
 
 	return resolve(event);
 }

@@ -1,16 +1,9 @@
-import {
-	pgTable,
-	uuid,
-	varchar,
-	timestamp,
-	foreignKey,
-	numeric,
-	smallint,
-	boolean
-} from 'drizzle-orm/pg-core';
-import { sql } from 'drizzle-orm';
+import { pgTable, uuid, varchar, timestamp, foreignKey, numeric, smallint, boolean, date, primaryKey } from "drizzle-orm/pg-core"
+import { sql } from "drizzle-orm"
 
-export const users = pgTable('users', {
+
+
+export const users = pgTable("users", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	username: varchar({ length: 100 }).notNull(),
 	name: varchar({ length: 100 }).notNull(),
@@ -18,96 +11,140 @@ export const users = pgTable('users', {
 	type: varchar({ length: 30 }).notNull(),
 	role: varchar({ length: 30 }).notNull(),
 	referrer: uuid(),
-	teamId: uuid('team_id'),
 	apikey: varchar({ length: 100 }),
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
-		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-		.notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
-		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-		.notNull()
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
 });
 
-export const services = pgTable(
-	'services',
-	{
-		id: uuid().defaultRandom().primaryKey().notNull(),
-		name: varchar({ length: 100 }).notNull(),
-		description: varchar({ length: 200 }),
-		price: numeric({ precision: 10, scale: 2 }).notNull(),
-		duration: smallint().notNull(),
-		userId: uuid('user_id').notNull(),
-		status: boolean().default(true).notNull(),
-		createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull(),
-		updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull()
-	},
-	(table) => [
-		foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: 'services_users_fk'
-		})
-	]
-);
-
-export const customers = pgTable(
-	'customers',
-	{
-		id: uuid().primaryKey().notNull(),
-		name: varchar({ length: 100 }).notNull(),
-		phone: varchar({ length: 50 }).notNull(),
-		address: varchar({ length: 200 }),
-		userId: uuid('user_id').notNull(),
-		createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull(),
-		updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull()
-	},
-	(table) => [
-		foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: 'customers_users_fk'
-		})
-	]
-);
-
-export const teams = pgTable('teams', {
+export const services = pgTable("services", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: varchar({ length: 50 }).notNull(),
-	description: varchar({ length: 100 }),
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
-		.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-		.notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).default(
-		sql`(now() AT TIME ZONE 'utc'::text)`
-	)
-});
-
-export const sessions = pgTable(
-	'sessions',
-	{
-		id: uuid().defaultRandom().primaryKey().notNull(),
-		token: varchar({ length: 256 }).notNull(),
-		userId: uuid('user_id').notNull(),
-		createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull(),
-		updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
-			.default(sql`(now() AT TIME ZONE 'utc'::text)`)
-			.notNull()
-	},
-	(table) => [
-		foreignKey({
+	name: varchar({ length: 100 }).notNull(),
+	description: varchar({ length: 200 }),
+	price: numeric({ precision: 10, scale:  2 }).notNull(),
+	duration: smallint().notNull(),
+	userId: uuid("user_id").notNull(),
+	status: boolean().default(true).notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	professionalId: uuid("professional_id").notNull(),
+	pix: numeric({ precision: 10, scale:  2 }),
+}, (table) => [
+	foreignKey({
 			columns: [table.userId],
 			foreignColumns: [users.id],
-			name: 'sessions_users_fk'
-		}).onDelete('cascade')
-	]
-);
+			name: "services_users_fk"
+		}),
+	foreignKey({
+			columns: [table.professionalId],
+			foreignColumns: [professionals.id],
+			name: "services_professionals_fk"
+		}),
+]);
+
+export const sessions = pgTable("sessions", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	token: varchar({ length: 256 }).notNull(),
+	userId: uuid("user_id").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "sessions_users_fk"
+		}).onDelete("cascade"),
+]);
+
+export const specialties = pgTable("specialties", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	description: varchar({ length: 100 }).notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+});
+
+export const customers = pgTable("customers", {
+	id: uuid().primaryKey().notNull(),
+	name: varchar({ length: 100 }).notNull(),
+	phone: varchar({ length: 50 }).notNull(),
+	address: varchar({ length: 200 }),
+	email: varchar({ length: 100 }),
+	birthday: date(),
+	parent: varchar({ length: 100 }),
+	cpf: varchar({ length: 11 }),
+	userId: uuid("user_id").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "customers_users_fk"
+		}),
+]);
+
+export const professionals = pgTable("professionals", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	name: varchar({ length: 100 }).notNull(),
+	phone: varchar({ length: 50 }),
+	email: varchar({ length: 100 }),
+	userId: uuid("user_id").notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "professionals_users_fk"
+		}),
+]);
+
+export const events = pgTable("events", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	description: varchar({ length: 200 }),
+	serviceId: uuid("service_id").notNull(),
+	professionalId: uuid("professional_id").notNull(),
+	customerId: uuid("customer_id").notNull(),
+	status: varchar({ length: 20 }).notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.professionalId],
+			foreignColumns: [professionals.id],
+			name: "events_professionals_fk"
+		}),
+	foreignKey({
+			columns: [table.customerId],
+			foreignColumns: [customers.id],
+			name: "events_customers_fk"
+		}),
+	foreignKey({
+			columns: [table.serviceId],
+			foreignColumns: [services.id],
+			name: "events_services_fk"
+		}),
+]);
+
+export const serviceHasProfessional = pgTable("service_has_professional", {
+	service: uuid().notNull(),
+	professional: uuid().notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.service],
+			foreignColumns: [services.id],
+			name: "service_has_professional_services_fk"
+		}),
+	foreignKey({
+			columns: [table.professional],
+			foreignColumns: [professionals.id],
+			name: "service_has_professional_professionals_fk"
+		}),
+	primaryKey({ columns: [table.service, table.professional], name: "service_has_professional_pk"}),
+]);
+
+export const professionalHasSpecialty = pgTable("professional_has_specialty", {
+	professional: uuid().notNull(),
+	specialty: uuid().notNull(),
+}, (table) => [
+	primaryKey({ columns: [table.professional, table.specialty], name: "professional_has_specialty_pk"}),
+]);

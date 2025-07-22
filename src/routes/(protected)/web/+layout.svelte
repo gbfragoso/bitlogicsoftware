@@ -9,7 +9,7 @@
 	}
 
 	let { data, children }: Props = $props();
-	//let { isAdmin, username, userid } = $derived(data);
+	let { isAdmin, username, type } = $derived(data);
 </script>
 
 <main class="is-flex">
@@ -29,51 +29,68 @@
 						></Icon>&nbsp; Dashboard
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/agendamentos'}>
-					<a aria-label="agendamentos" title="agendamentos" href="/web/agendamentos">
-						<Icon class="iconify" icon="lucide:calendar-clock" width="24" height="24"></Icon>&nbsp;
-						Agendamentos
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/clientes'}>
-					<a aria-label="clientes" title="clientes" href="/web/clientes">
-						<Icon class="iconify" icon="lucide:users" width="24" height="24"></Icon>&nbsp; Clientes
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/estoque'}>
-					<a aria-label="estoque" title="estoque" href="/web/estoque">
-						<Icon class="iconify" icon="lucide:list-check" width="24" height="24"></Icon>&nbsp;
-						Estoque
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/pedidos'}>
-					<a aria-label="pedidos" title="pedidos" href="/web/pedidos">
-						<Icon class="iconify" icon="lucide:clipboard-list" width="24" height="24"></Icon>&nbsp;
-						Pedidos
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/produtos'}>
-					<a aria-label="produtos" title="produtos" href="/web/produtos">
-						<Icon class="iconify" icon="lucide:package" width="24" height="24"></Icon>&nbsp;
-						Produtos
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
-					<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
-						<Icon class="iconify" icon="lucide:badge-percent" width="24" height="24"></Icon>&nbsp;
-						Promoções
-					</a>
-				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
-					<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
-						<Icon class="iconify" icon="lucide:hand-platter" width="24" height="24"></Icon>&nbsp;
-						Serviços
-					</a>
-				</li>
+				{#if type.includes('clinic')}
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/events'}>
+						<a aria-label="agendamentos" title="agendamentos" href="/web/events">
+							<Icon class="iconify" icon="lucide:calendar-clock" width="24" height="24"
+							></Icon>&nbsp; Agendamentos
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/customers'}>
+						<a aria-label="pacientes" title="pacientes" href="/web/customer">
+							<Icon class="iconify" icon="lucide:book-user" width="24" height="24"></Icon>&nbsp;
+							Pacientes
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/professionals'}>
+						<a aria-label="profissionais" title="profissionais" href="/web/professionals">
+							<Icon class="iconify" icon="lucide:users" width="24" height="24"></Icon>&nbsp;
+							Profissionais
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/services'}>
+						<a aria-label="servicos" title="servicos" href="/web/services">
+							<Icon class="iconify" icon="lucide:hand-platter" width="24" height="24"></Icon>&nbsp;
+							Serviços
+						</a>
+					</li>
+				{/if}
+				{#if type.includes('sales')}
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/clientes'}>
+						<a aria-label="clientes" title="clientes" href="/web/clientes">
+							<Icon class="iconify" icon="lucide:users" width="24" height="24"></Icon>&nbsp;
+							Clientes
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/estoque'}>
+						<a aria-label="estoque" title="estoque" href="/web/estoque">
+							<Icon class="iconify" icon="lucide:list-check" width="24" height="24"></Icon>&nbsp;
+							Estoque
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/pedidos'}>
+						<a aria-label="pedidos" title="pedidos" href="/web/pedidos">
+							<Icon class="iconify" icon="lucide:clipboard-list" width="24" height="24"
+							></Icon>&nbsp; Pedidos
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/produtos'}>
+						<a aria-label="produtos" title="produtos" href="/web/produtos">
+							<Icon class="iconify" icon="lucide:package" width="24" height="24"></Icon>&nbsp;
+							Produtos
+						</a>
+					</li>
+					<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
+						<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
+							<Icon class="iconify" icon="lucide:badge-percent" width="24" height="24"></Icon>&nbsp;
+							Promoções
+						</a>
+					</li>
+				{/if}
 			</ul>
 		</div>
 	</nav>
-	<section class="section is-flex-grow-1">
+	<section class="section pt-0 is-flex-grow-1">
 		<Navbar username="Gustavo Fragoso" userid="1"></Navbar>
 		{@render children?.()}
 	</section>
