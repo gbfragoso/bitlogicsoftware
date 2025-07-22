@@ -23,49 +23,49 @@
 				<img src="/logo.png" id="user-avatar" alt="Avatar" />
 			</div>
 			<ul id="sidebar-list" class="is-flex is-flex-direction-column is-align-content-flex-start">
-				<li class="sidebar-item" class:active={page.url.pathname === '/app'}>
-					<a aria-label="home" title="Página inicial" href="/app">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web'}>
+					<a aria-label="home" title="Página inicial" href="/web">
 						<Icon class="iconify" icon="lucide:layout-dashboard" width="24" height="24"
 						></Icon>&nbsp; Dashboard
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/agendamentos'}>
-					<a aria-label="agendamentos" title="agendamentos" href="/app/agendamentos">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/agendamentos'}>
+					<a aria-label="agendamentos" title="agendamentos" href="/web/agendamentos">
 						<Icon class="iconify" icon="lucide:calendar-clock" width="24" height="24"></Icon>&nbsp;
 						Agendamentos
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/clientes'}>
-					<a aria-label="clientes" title="clientes" href="/app/clientes">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/clientes'}>
+					<a aria-label="clientes" title="clientes" href="/web/clientes">
 						<Icon class="iconify" icon="lucide:users" width="24" height="24"></Icon>&nbsp; Clientes
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/estoque'}>
-					<a aria-label="estoque" title="estoque" href="/app/estoque">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/estoque'}>
+					<a aria-label="estoque" title="estoque" href="/web/estoque">
 						<Icon class="iconify" icon="lucide:list-check" width="24" height="24"></Icon>&nbsp;
 						Estoque
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/pedidos'}>
-					<a aria-label="pedidos" title="pedidos" href="/app/pedidos">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/pedidos'}>
+					<a aria-label="pedidos" title="pedidos" href="/web/pedidos">
 						<Icon class="iconify" icon="lucide:clipboard-list" width="24" height="24"></Icon>&nbsp;
 						Pedidos
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/produtos'}>
-					<a aria-label="produtos" title="produtos" href="/app/produtos">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/produtos'}>
+					<a aria-label="produtos" title="produtos" href="/web/produtos">
 						<Icon class="iconify" icon="lucide:package" width="24" height="24"></Icon>&nbsp;
 						Produtos
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/promocoes'}>
-					<a aria-label="promocoes" title="promocoes" href="/app/promocoes">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
+					<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
 						<Icon class="iconify" icon="lucide:badge-percent" width="24" height="24"></Icon>&nbsp;
 						Promoções
 					</a>
 				</li>
-				<li class="sidebar-item" class:active={page.url.pathname === '/app/promocoes'}>
-					<a aria-label="promocoes" title="promocoes" href="/app/promocoes">
+				<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
+					<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
 						<Icon class="iconify" icon="lucide:hand-platter" width="24" height="24"></Icon>&nbsp;
 						Serviços
 					</a>
