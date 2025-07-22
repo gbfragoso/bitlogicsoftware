@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, timestamp, foreignKey, numeric, smallint, boolean, date, primaryKey } from "drizzle-orm/pg-core"
+import { pgTable, uuid, varchar, timestamp, foreignKey, date, numeric, smallint, boolean, primaryKey } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
@@ -15,31 +15,6 @@ export const users = pgTable("users", {
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
 });
-
-export const services = pgTable("services", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	name: varchar({ length: 100 }).notNull(),
-	description: varchar({ length: 200 }),
-	price: numeric({ precision: 10, scale:  2 }).notNull(),
-	duration: smallint().notNull(),
-	userId: uuid("user_id").notNull(),
-	status: boolean().default(true).notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
-	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
-	professionalId: uuid("professional_id").notNull(),
-	pix: numeric({ precision: 10, scale:  2 }),
-}, (table) => [
-	foreignKey({
-			columns: [table.userId],
-			foreignColumns: [users.id],
-			name: "services_users_fk"
-		}),
-	foreignKey({
-			columns: [table.professionalId],
-			foreignColumns: [professionals.id],
-			name: "services_professionals_fk"
-		}),
-]);
 
 export const sessions = pgTable("sessions", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
@@ -98,6 +73,25 @@ export const professionals = pgTable("professionals", {
 		}),
 ]);
 
+export const services = pgTable("services", {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	name: varchar({ length: 100 }).notNull(),
+	description: varchar({ length: 200 }),
+	cash: numeric({ precision: 10, scale:  2 }).notNull(),
+	creditcard: numeric({ precision: 10, scale:  2 }).notNull(),
+	duration: smallint().notNull(),
+	userId: uuid("user_id").notNull(),
+	status: boolean().default(true).notNull(),
+	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.userId],
+			foreignColumns: [users.id],
+			name: "services_users_fk"
+		}),
+]);
+
 export const events = pgTable("events", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	description: varchar({ length: 200 }),
@@ -109,14 +103,14 @@ export const events = pgTable("events", {
 	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
 }, (table) => [
 	foreignKey({
-			columns: [table.professionalId],
-			foreignColumns: [professionals.id],
-			name: "events_professionals_fk"
-		}),
-	foreignKey({
 			columns: [table.customerId],
 			foreignColumns: [customers.id],
 			name: "events_customers_fk"
+		}),
+	foreignKey({
+			columns: [table.professionalId],
+			foreignColumns: [professionals.id],
+			name: "events_professionals_fk"
 		}),
 	foreignKey({
 			columns: [table.serviceId],
@@ -125,26 +119,26 @@ export const events = pgTable("events", {
 		}),
 ]);
 
-export const serviceHasProfessional = pgTable("service_has_professional", {
-	service: uuid().notNull(),
-	professional: uuid().notNull(),
-}, (table) => [
-	foreignKey({
-			columns: [table.service],
-			foreignColumns: [services.id],
-			name: "service_has_professional_services_fk"
-		}),
-	foreignKey({
-			columns: [table.professional],
-			foreignColumns: [professionals.id],
-			name: "service_has_professional_professionals_fk"
-		}),
-	primaryKey({ columns: [table.service, table.professional], name: "service_has_professional_pk"}),
-]);
-
 export const professionalHasSpecialty = pgTable("professional_has_specialty", {
 	professional: uuid().notNull(),
 	specialty: uuid().notNull(),
 }, (table) => [
 	primaryKey({ columns: [table.professional, table.specialty], name: "professional_has_specialty_pk"}),
+]);
+
+export const serviceHasProfessional = pgTable("service_has_professional", {
+	service: uuid().notNull(),
+	professional: uuid().notNull(),
+}, (table) => [
+	foreignKey({
+			columns: [table.professional],
+			foreignColumns: [professionals.id],
+			name: "service_has_professional_professionals_fk"
+		}),
+	foreignKey({
+			columns: [table.service],
+			foreignColumns: [services.id],
+			name: "service_has_professional_services_fk"
+		}),
+	primaryKey({ columns: [table.service, table.professional], name: "service_has_professional_pk"}),
 ]);
