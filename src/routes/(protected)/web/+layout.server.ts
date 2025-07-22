@@ -10,7 +10,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 
 	return {
 		username: locals.name,
-		userid: locals.type,
+		type: locals.type,
 		isAdmin: locals.role.includes('admin')
 	};
 };
