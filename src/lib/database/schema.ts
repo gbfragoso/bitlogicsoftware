@@ -38,7 +38,7 @@ export const specialties = pgTable("specialties", {
 });
 
 export const customers = pgTable("customers", {
-	id: uuid().primaryKey().notNull(),
+	id: uuid().defaultRandom().primaryKey().notNull(),
 	name: varchar({ length: 100 }).notNull(),
 	phone: varchar({ length: 50 }).notNull(),
 	address: varchar({ length: 200 }),
