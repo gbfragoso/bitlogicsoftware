@@ -37,7 +37,7 @@
 						</a>
 					</li>
 					<li class="sidebar-item" class:active={page.url.pathname === '/web/customers'}>
-						<a aria-label="pacientes" title="pacientes" href="/web/customer">
+						<a aria-label="pacientes" title="pacientes" href="/web/customers">
 							<Icon class="iconify" icon="lucide:book-user" width="24" height="24"></Icon>&nbsp;
 							Pacientes
 						</a>
@@ -52,38 +52,6 @@
 						<a aria-label="servicos" title="servicos" href="/web/services">
 							<Icon class="iconify" icon="lucide:hand-platter" width="24" height="24"></Icon>&nbsp;
 							Serviços
-						</a>
-					</li>
-				{/if}
-				{#if type.includes('sales')}
-					<li class="sidebar-item" class:active={page.url.pathname === '/web/clientes'}>
-						<a aria-label="clientes" title="clientes" href="/web/clientes">
-							<Icon class="iconify" icon="lucide:users" width="24" height="24"></Icon>&nbsp;
-							Clientes
-						</a>
-					</li>
-					<li class="sidebar-item" class:active={page.url.pathname === '/web/estoque'}>
-						<a aria-label="estoque" title="estoque" href="/web/estoque">
-							<Icon class="iconify" icon="lucide:list-check" width="24" height="24"></Icon>&nbsp;
-							Estoque
-						</a>
-					</li>
-					<li class="sidebar-item" class:active={page.url.pathname === '/web/pedidos'}>
-						<a aria-label="pedidos" title="pedidos" href="/web/pedidos">
-							<Icon class="iconify" icon="lucide:clipboard-list" width="24" height="24"
-							></Icon>&nbsp; Pedidos
-						</a>
-					</li>
-					<li class="sidebar-item" class:active={page.url.pathname === '/web/produtos'}>
-						<a aria-label="produtos" title="produtos" href="/web/produtos">
-							<Icon class="iconify" icon="lucide:package" width="24" height="24"></Icon>&nbsp;
-							Produtos
-						</a>
-					</li>
-					<li class="sidebar-item" class:active={page.url.pathname === '/web/promocoes'}>
-						<a aria-label="promocoes" title="promocoes" href="/web/promocoes">
-							<Icon class="iconify" icon="lucide:badge-percent" width="24" height="24"></Icon>&nbsp;
-							Promoções
 						</a>
 					</li>
 				{/if}

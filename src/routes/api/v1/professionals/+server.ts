@@ -1,5 +1,5 @@
 import { db } from '$lib/database/connection';
-import { professionalHasSpecialty, professionals, specialties, users } from '$lib/database/schema';
+import { professionals, users } from '$lib/database/schema';
 import { error, json } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
@@ -17,30 +17,12 @@ export const GET: RequestHandler = async ({ request }) => {
 		}
 
 		const results = await db
-			.select({ id: professionals.id, name: professionals.name, specialties })
+			.select()
 			.from(professionals)
-			.leftJoin(
-				professionalHasSpecialty,
-				eq(professionals.id, professionalHasSpecialty.professional)
-			)
-			.leftJoin(specialties, eq(specialties.id, professionalHasSpecialty.specialty))
 			.where(eq(professionals.userId, user[0]?.id))
 			.orderBy(professionals.name);
 
-		const map = new Map();
-		for (const result of results) {
-			if (map.has(result.id)) {
-				map.get(result.id).specialties.push(result.specialties);
-			} else {
-				map.set(result.id, {
-					id: result.id,
-					name: result.name,
-					specialties: [result.specialties]
-				});
-			}
-		}
-
-		return json(Array.from(map.values()));
+		return json(results);
 	} catch (err) {
 		console.error(err);
 		return error(500, {

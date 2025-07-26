@@ -1,6 +1,6 @@
 import { db } from '$lib/database/connection';
-import { ulike, unaccent } from '$lib/database/functions';
-import { professionals, services, serviceHasProfessional } from '$lib/database/schema';
+import { ulike } from '$lib/database/functions';
+import { events, professionals, services } from '$lib/database/schema';
 import { error, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
@@ -20,22 +20,24 @@ export const actions: Actions = {
 			const resultados = await db
 				.select({
 					id: services.id,
-					name: services.name,
-					cash: services.cash,
-					creditcard: services.creditcard,
-					professional: professionals.name
+					service: services.name,
+					professional: professionals.name,
+					description: events.description,
+					status: events.status,
+					start: events.start,
+					end: events.end
 				})
-				.from(services)
-				.innerJoin(serviceHasProfessional, eq(services.id, serviceHasProfessional.service))
-				.innerJoin(professionals, eq(professionals.id, serviceHasProfessional.professional))
+				.from(events)
+				.innerJoin(services, eq(services.id, events.serviceId))
+				.innerJoin(professionals, eq(professionals.id, events.professionalId))
 				.where(where)
-				.orderBy(unaccent(services.name))
+				.orderBy(events.start)
 				.limit(50);
 			return { resultados };
 		} catch (err) {
 			console.error(err);
 			return error(500, {
-				message: 'Falha ao carregar a lista de serviços oferecidos'
+				message: 'Falha ao carregar a lista de agendamentos'
 			});
 		}
 	}
