@@ -10,7 +10,7 @@
 	let { professionals } = $derived(data);
 </script>
 
-<div class="mb-2">
+<div class="mb-2 ml-1">
 	<nav id="breadcrumb" class="breadcrumb m-0" aria-label="breadcrumbs">
 		<ul>
 			<li><a href="/web">Página Inicial</a></li>

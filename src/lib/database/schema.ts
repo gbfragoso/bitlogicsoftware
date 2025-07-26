@@ -30,13 +30,6 @@ export const sessions = pgTable("sessions", {
 		}).onDelete("cascade"),
 ]);
 
-export const specialties = pgTable("specialties", {
-	id: uuid().defaultRandom().primaryKey().notNull(),
-	description: varchar({ length: 100 }).notNull(),
-	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
-	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
-});
-
 export const customers = pgTable("customers", {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	name: varchar({ length: 100 }).notNull(),
@@ -101,6 +94,8 @@ export const events = pgTable("events", {
 	status: varchar({ length: 20 }).notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).default(sql`(now() AT TIME ZONE 'utc'::text)`).notNull(),
+	start: timestamp({ withTimezone: true, mode: 'string' }).notNull(),
+	end: timestamp({ withTimezone: true, mode: 'string' }).notNull(),
 }, (table) => [
 	foreignKey({
 			columns: [table.customerId],
@@ -117,13 +112,6 @@ export const events = pgTable("events", {
 			foreignColumns: [services.id],
 			name: "events_services_fk"
 		}),
-]);
-
-export const professionalHasSpecialty = pgTable("professional_has_specialty", {
-	professional: uuid().notNull(),
-	specialty: uuid().notNull(),
-}, (table) => [
-	primaryKey({ columns: [table.professional, table.specialty], name: "professional_has_specialty_pk"}),
 ]);
 
 export const serviceHasProfessional = pgTable("service_has_professional", {

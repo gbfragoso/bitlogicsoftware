@@ -1,8 +1,7 @@
 import { db } from '$lib/database/connection';
 import { ulike, unaccent } from '$lib/database/functions';
-import { professionals, services, serviceHasProfessional } from '$lib/database/schema';
+import { customers } from '$lib/database/schema';
 import { error, redirect } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 
 import type { Actions, PageServerLoad } from './$types';
 
@@ -14,28 +13,20 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 		const form = await request.formData();
 		const nome = form.get('nome') as string;
-		const where = nome ? ulike(services.name, nome + '%') : undefined;
+		const where = nome ? ulike(customers.name, nome + '%') : undefined;
 
 		try {
 			const resultados = await db
-				.select({
-					id: services.id,
-					name: services.name,
-					cash: services.cash,
-					creditcard: services.creditcard,
-					professional: professionals.name
-				})
-				.from(services)
-				.innerJoin(serviceHasProfessional, eq(services.id, serviceHasProfessional.service))
-				.innerJoin(professionals, eq(professionals.id, serviceHasProfessional.professional))
+				.select()
+				.from(customers)
 				.where(where)
-				.orderBy(unaccent(services.name))
+				.orderBy(unaccent(customers.name))
 				.limit(50);
 			return { resultados };
 		} catch (err) {
 			console.error(err);
 			return error(500, {
-				message: 'Falha ao carregar a lista de serviços oferecidos'
+				message: 'Falha ao carregar a lista de pacientes'
 			});
 		}
 	}

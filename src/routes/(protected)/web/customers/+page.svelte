@@ -6,6 +6,10 @@
 		form: ActionData;
 	}
 
+	import dayjs from 'dayjs';
+	import utc from 'dayjs/plugin/utc';
+	dayjs.extend(utc);
+
 	let { form }: Props = $props();
 	let loading = $state(false);
 </script>
@@ -15,11 +19,11 @@
 		<ul>
 			<li><a href="/web">Página Inicial</a></li>
 			<li class="is-active">
-				<a href="/web/services" aria-current="page">Serviços</a>
+				<a href="/web/customers" aria-current="page">Pacientes</a>
 			</li>
 		</ul>
 	</nav>
-	<h1 class="is-size-3 has-text-weight-semibold">Consulta de serviços</h1>
+	<h1 class="is-size-3 has-text-weight-semibold">Consulta de pacientes</h1>
 </div>
 
 <form
@@ -35,14 +39,14 @@
 >
 	<div class="card-content">
 		<div class="field">
-			<label class="label" for="nome">Nome do serviço</label>
+			<label class="label" for="nome">Nome do paciente</label>
 			<div class="control">
 				<input
 					class="input"
 					type="text"
 					name="nome"
 					id="nome"
-					placeholder="Digite o nome do serviço"
+					placeholder="Digite o nome do paciente"
 				/>
 			</div>
 		</div>
@@ -60,7 +64,7 @@
 			<div class="column is-full-mobile is-2-tablet" style="min-width: 200px">
 				<a
 					class="button is-light is-fullwidth has-text-weight-semibold"
-					href="/web/services/register"><i class="fa-solid fa-plus fa-fw">&nbsp;</i>Novo</a
+					href="/web/customers/register"><i class="fa-solid fa-plus fa-fw">&nbsp;</i>Novo</a
 				>
 			</div>
 		</div>
@@ -74,22 +78,20 @@
 				<table class="table is-striped is-hoverable is-fullwidth">
 					<thead>
 						<tr>
-							<th>Serviço</th>
-							<th>PIX</th>
-							<th>Cartão</th>
-							<th>Profissional</th>
+							<th>Nome</th>
+							<th>Responsável</th>
+							<th>Aniversário</th>
 							<th class="table-actions">Ações</th>
 						</tr>
 					</thead>
 					<tbody>
-						{#each form.resultados as service}
+						{#each form.resultados as customer}
 							<tr>
-								<td>{service.name}</td>
-								<td>{service.cash}</td>
-								<td>{service.creditcard}</td>
-								<td>{service.professional}</td>
+								<td>{customer.name}</td>
+								<td>{customer.parent}</td>
+								<td>{dayjs.utc(customer.birthday).format('DD/MM/YYYY')}</td>
 								<td class="table-actions">
-									<a aria-label="link" href="/web/services/{service.id}">
+									<a aria-label="link" href="/web/customers/{customer.id}">
 										<Icon class="iconify" icon="lucide:square-pen" width="24" height="24"></Icon>
 									</a>
 								</td>
