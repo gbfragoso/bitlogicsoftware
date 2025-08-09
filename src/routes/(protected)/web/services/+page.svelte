@@ -77,7 +77,6 @@
 							<th>Serviço</th>
 							<th>PIX</th>
 							<th>Cartão</th>
-							<th>Profissional</th>
 							<th class="table-actions">Ações</th>
 						</tr>
 					</thead>
@@ -87,10 +86,13 @@
 								<td>{service.name}</td>
 								<td>{service.cash}</td>
 								<td>{service.creditcard}</td>
-								<td>{service.professional}</td>
 								<td class="table-actions">
 									<a aria-label="link" href="/web/services/{service.id}">
 										<Icon class="iconify" icon="lucide:square-pen" width="24" height="24"></Icon>
+									</a>
+									<a class="pl-1" aria-label="link" href="/web/services/{service.id}/professionals">
+										<Icon class="iconify" icon="lucide:briefcase-medical" width="24" height="24"
+										></Icon>
 									</a>
 								</td>
 							</tr>
